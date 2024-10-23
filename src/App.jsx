@@ -1,6 +1,7 @@
 import React from 'react';
 import AboutMe from './components/AboutMe';
-import Skills from './components/Skills';
+import Skills from './components/SkillsIcon';
+import SkillsHistogram from './components/Skills';
 import Projects from './components/Projects';
 import Experience from './components/Experience';
 import ContactForm from './components/ContactForm';
@@ -10,6 +11,7 @@ function App() {
     <div>
       <AboutMe />
       <Skills />
+      <SkillsHistogram />
       <Projects />
       <Experience />
       <ContactForm />

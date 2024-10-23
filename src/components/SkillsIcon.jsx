@@ -155,20 +155,47 @@ const Skills = () => {
         },
     };
 
+    // Split skills into three parts
+    const skillsPart1 = skills.slice(0, Math.ceil(skills.length / 3));
+    const skillsPart2 = skills.slice(Math.ceil(skills.length / 3), Math.ceil(2 * skills.length / 3));
+    const skillsPart3 = skills.slice(Math.ceil(2 * skills.length / 3));
+
     return (
         <SkillsContainer>
             <SkillsSection>
-                <h2>Skill Levels</h2>
-                <SkillHistogram
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={controls}
-                    transition={{ duration: 0.5 }}
-                    style={{ display: showHistogram ? 'block' : 'none' }}
-                >
-                    <Bar data={data} options={options} height={200} /> {/* Adjust height as needed */}
-                </SkillHistogram>
+                <h2>Skills</h2>
+                <SkillGrid>
+                    {skillsPart1.map((skill, index) => (
+                        <SkillIcon key={index} skill={skill} />
+                    ))}
+                </SkillGrid>
+                <SkillGrid>
+                    {skillsPart2.map((skill, index) => (
+                        <SkillIcon key={index} skill={skill} />
+                    ))}
+                </SkillGrid>
+                <SkillGrid>
+                    {skillsPart3.map((skill, index) => (
+                        <SkillIcon key={index} skill={skill} />
+                    ))}
+                </SkillGrid>
             </SkillsSection>
         </SkillsContainer>
+    );
+};
+
+const SkillIcon = ({ skill }) => {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+        >
+            <SkillIconCard>
+                <img src={skill.logo} alt={`${skill.name} logo`} />
+            </SkillIconCard>
+        </motion.div>
     );
 };
 
@@ -178,54 +205,64 @@ const SkillsContainer = styled.div`
     padding: 50px;
     background-color: #e5e5e5;
     overflow-y: hidden; /* Stop scrolling */
-    height: 90vh;
+    min-height: 25vh; /* Ensure it takes at least the full viewport height */
+    height: auto; /* Adjust height as needed */
     scrollbar-width: none; /* Hide scrollbar for Firefox */
     -ms-overflow-style: none; /* Hide scrollbar for Internet Explorer and Edge */
     ::-webkit-scrollbar {
         display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
-    }
-
-    @media (max-width: 768px) {
-        padding: 20px;
-        height: auto; /* Adjust height for mobile */
     }
 
     h2 {
         font-size: 4rem;
         text-align: center;
         @media (max-width: 768px) {
-            text-align: left;
             font-size: 2rem;
         }
     }
 `;
 
 const SkillsSection = styled.section`
-    margin-bottom: 50px;
+    shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
-const SkillHistogram = styled(motion.div)`
+const SkillGrid = styled.div`
     display: flex;
-    overflow-x: auto;
-    white-space: nowrap;
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 8px;
-    height: 100%; /* Adjust height to fill container */
-    width: 100%; /* Adjust width to fill container */
-    scrollbar-width: none; /* Hide scrollbar for Firefox */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    -ms-overflow-style: none; /* Hide scrollbar for Internet Explorer and Edge */
-    ::-webkit-scrollbar {
-        display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
-    }
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    height: auto; /* Adjust height as needed */
+`;
 
-    @media (max-width: 768px) {
-        height: auto; /* Adjust height for mobile */
-        width: 900px; /* Ensure it fits within the mobile screen */
-    }
+const SkillIconCard = styled.div`
+    padding: 20px;
+    margin: auto;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     
-    @media (min-width: 1200px) {
-        height: 450px; /* Adjust height as needed */
+    img {
+        width: 80px;
+        height: 80px;
+
+        @media (min-width: 300px) and (max-width: 1000px) {
+            width: 30px;
+            height: 30px;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        @media (min-width: 1920px) {
+            width: 100px;
+            height: 100px;
+        }
+        
+        @media (min-width: 3000px) {
+            width: 120px;
+            height: 120px;
+        }
     }
 `;
+
+
